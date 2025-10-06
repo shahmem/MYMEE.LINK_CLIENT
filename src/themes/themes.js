@@ -1,0 +1,42 @@
+// const themes = {
+  // costume: {
+  //   bgColor: "#ffffff",
+  //   bgImage: "",
+  //   bgVideo:"",
+  //   nameColor: "#000000",
+  //   bioColor: "rgba(0,0,0,0.40)",
+  //   iconColor: "#000000",
+  //   iconBg: "#ffffff32",
+  //   linkColor: "#000000",
+  //   linkRadius: "24px",
+  //   linkBg: "#ffffff72",
+  //   headerColor: "#fffffd",
+  // }
+//   dark: {
+//     bgColor: "#1f4444",
+//     bgImage: "",
+//     bgVideo:"",
+//     nameColor: "#111111",
+//     bioColor: "rgba(0,0,0,0.05)",
+//     iconColor: "#111111",
+//     iconBg: "rgba(0,0,0,0.2)",
+//     linkColor: "#111111",
+//     linkRadius: "6px",
+//     linkBg: "#00000052",
+//     headerColor: "#111111",
+//   },
+//   pastel: {
+//     bgColor: "#ffffff",
+//     bgImage: "",
+//     bgVideo:"",
+//     nameColor: "#111111",
+//     bioColor: "rgba(0,0,0,0.05)",
+//     iconColor: "#111111",
+//     iconBg: "rgba(0,0,0,0.2)",
+//     linkColor: "#111111",
+//     linkRadius: "0px",
+//     linkBg: "#00000052",
+//     headerColor: "#111111",
+//   },
+// };
+// // export default themes;
