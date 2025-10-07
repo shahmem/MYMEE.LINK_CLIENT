@@ -185,20 +185,20 @@ export default function Landing() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
               onClick={() => navigate("/signup")}
-              className="px-8 py-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all font-semibold text-lg shadow-lg hover:shadow-xl flex items-center gap-2"
+              className="hidden px-8 py-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all font-semibold text-lg shadow-lg hover:shadow-xl md:flex items-center gap-2"
             >
               Get Started Free
               <ArrowRight className="w-5 h-5" />
             </button>
             <button
               onClick={() => navigate("/login")}
-              className="px-8 py-4 bg-white text-gray-700 rounded-xl hover:bg-gray-50 transition-all font-semibold text-lg shadow-md border border-gray-200"
+              className=" hidden md:block px-8 py-4 bg-white text-gray-700 rounded-xl hover:bg-gray-50 transition-all font-semibold text-lg shadow-md border border-gray-200"
             >
               I Have an Account
             </button>
             <button
               onClick={() => setShowQRModal(true)}
-              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all font-semibold text-lg shadow-lg hover:shadow-xl flex items-center gap-2"
+              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all font-semibold md:text-lg shadow-lg hover:shadow-xl flex items-center gap-2"
             >
               <QrCode className="w-5 h-5" />
               Generate QR Code
