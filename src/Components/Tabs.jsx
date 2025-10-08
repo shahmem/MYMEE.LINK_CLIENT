@@ -63,7 +63,7 @@ function Tabs({links, setLinks, refreshSocialLinks, setUser, user, socialLinks, 
           {activeTab === "settings" && (
             <p>
               {" "}
-              <Settings />
+              <Settings user={user} setUser={setUser}/>
             </p>
           )}
           <LogoutButton onLogout={onLogout} />

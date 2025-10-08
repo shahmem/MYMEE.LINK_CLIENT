@@ -1,31 +1,32 @@
-// App.jsx
+// App.jsx - Complete Version
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Landing from "./Pages/Landing";
 import Dashboard from "./Pages/Dashboard";
 import Signup from "./Components/auth/SignUp";
 import Login from "./Components/auth/Login";
+import PublicProfile from "./Components/Common/PublicScreen";
 
 // Protected Route Component - Only allows authenticated users
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token");
-
+  
   if (!token) {
     // Redirect to login if not authenticated
     return <Navigate to="/login" replace />;
   }
-
+  
   return children;
 };
 
 // Public Route Component - Redirects to dashboard if already logged in
 const PublicRoute = ({ children }) => {
   const token = localStorage.getItem("token");
-
+  
   if (token) {
     // Redirect to dashboard if already authenticated
     return <Navigate to="/dashboard" replace />;
   }
-
+  
   return children;
 };
 
@@ -37,36 +38,36 @@ function App() {
         <Route path="/" element={<Landing />} />
 
         {/* Public Routes - Only accessible when NOT logged in */}
-        <Route
-          path="/signup"
+        <Route 
+          path="/signup" 
           element={
             <PublicRoute>
               <Signup />
             </PublicRoute>
-          }
+          } 
         />
-
-        <Route
-          path="/login"
+        
+        <Route 
+          path="/login" 
           element={
             <PublicRoute>
               <Login />
             </PublicRoute>
-          }
+          } 
         />
 
         {/* Protected Routes - Only accessible when logged in */}
-        <Route
-          path="/dashboard"
+        <Route 
+          path="/dashboard" 
           element={
-            // <PublicRoute>
-            //   <Dashboard />
-            // </PublicRoute>
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
-          }
+          } 
         />
+
+        {/* Public Profile Route - Accessible to everyone */}
+        <Route path="/:username" element={<PublicProfile />} />
 
         {/* Catch all - Redirect to landing page */}
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaUserCircle } from "react-icons/fa";
 
-const Profile = ({ user ,setUser}) => {
+const Profile = ({ user, setUser }) => {
   const apiBase = import.meta.env.VITE_API_URL;
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
@@ -32,9 +32,13 @@ const Profile = ({ user ,setUser}) => {
       formData.append("bio", bio);
       if (img instanceof File) formData.append("img", img);
 
-      const res = await axios.put(`${apiBase}/api/profile/${user._id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await axios.put(
+        `${apiBase}/api/profile/${user._id}`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       setUser(res.data.user);
       alert("Profile updated successfully!");
     } catch (err) {
@@ -51,12 +55,14 @@ const Profile = ({ user ,setUser}) => {
           <input
             type="text"
             value={name}
+            placeholder="Name"
             onChange={(e) => setName(e.target.value)}
             className="w-full focus:outline-none text-sm bg-gray-100 px-3 py-2 rounded"
           />
           <input
             type="text"
             value={bio}
+            placeholder="bio"
             onChange={(e) => setBio(e.target.value)}
             className="w-full focus:outline-none text-sm bg-gray-100 px-3 py-2 rounded"
           />

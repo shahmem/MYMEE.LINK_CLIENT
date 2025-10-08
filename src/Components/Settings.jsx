@@ -1,10 +1,10 @@
 import React from 'react'
 import UsernameSettings from './UsernameSettings'
 
-function Settings() {
+function Settings({ user, setUser }) {
   return (
     <div>
-        <UsernameSettings/>
+        <UsernameSettings  user={user} setUser={setUser} />
     </div>
   )
 }
