@@ -18,7 +18,7 @@ export default function Signup() {
   const navigate = useNavigate();
   const apiBase = import.meta.env.VITE_API_URL;
 
-  const [signupMethod, setSignupMethod] = useState("whatsapp");
+  const [signupMethod, setSignupMethod] = useState("email");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
