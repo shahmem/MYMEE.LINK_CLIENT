@@ -138,6 +138,7 @@ function Dashboard() {
         user={user}
         theme={theme}
         position={position}
+
       />
 
       <Tabs

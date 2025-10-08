@@ -18,7 +18,7 @@ export default function Signup() {
   const navigate = useNavigate();
   const apiBase = import.meta.env.VITE_API_URL;
 
-  const [signupMethod, setSignupMethod] = useState("whatsapp");
+  const [signupMethod, setSignupMethod] = useState("email");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
@@ -201,6 +201,8 @@ export default function Signup() {
       const res = await axios.post(`${apiBase}/api/auth/send-email-otp`, {
         email: emailData.email,
       });
+
+      
 
       if (res.data.devOTP) setDevOTP(res.data.devOTP);
       setOtpSent(true);

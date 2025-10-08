@@ -255,7 +255,7 @@ function Socials({
 
     const platform = socialitems.find((s) => s.key === selected);
     const url = platform.buildUrl(inputValue.replace(/\s+/g, ""));
-
+  
     setLoading(true);
     try {
       await axios.post(`${apiBase}/api/sociallinks/${user._id}`, {
