@@ -1,10 +1,10 @@
-// App.jsx - Complete Version
+// App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Landing from "./Pages/Landing";
 import Dashboard from "./Pages/Dashboard";
 import Signup from "./Components/auth/SignUp";
 import Login from "./Components/auth/Login";
-import PublicProfile from "./Components/Common/PublicScreen";
+import PublicProfile from "./Components/PublicProfile"; // Import the new PublicProfile component
 
 // Protected Route Component - Only allows authenticated users
 const ProtectedRoute = ({ children }) => {
