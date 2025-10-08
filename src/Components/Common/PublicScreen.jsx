@@ -218,11 +218,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
 
   return (
     <div
-<<<<<<< HEAD
       className="flex flex-col items-center gap-3 p-4 relative h-screen w-full "
-=======
-      className="flex flex-col items-center gap-3 p-4 relative h-screen w-full"
->>>>>>> 62bc1791d82706f8cc0f2938b4c816ad924e83b7
       style={{
         backgroundColor: theme.bgColor, // fallback
         backgroundImage: theme.bgImage ? `url(${theme.bgImage})` : "none",
