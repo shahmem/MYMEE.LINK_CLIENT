@@ -15,7 +15,7 @@ function Tabs({links, setLinks, refreshSocialLinks, setUser, user, socialLinks, 
     { id: "settings", label: "Settings" },
   ];
   return (
-    <div className="px-16 py-12 h-screen overflow-auto w-full md:w-[55%] bg-gray-100">
+    <div className="md:px-16 py-12 h-screen overflow-auto w-full md:w-[55%] bg-gray-100">
       <div className="w-full h-auto max-w-lg mx-auto">
         <div className="flex border-b border-gray-300 relative">
           {tabs.map((tab) => (
