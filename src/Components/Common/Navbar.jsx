@@ -25,7 +25,7 @@ function Navbar() {
               onClick={() => navigate("/signup")}
               className="md:px-6 px-6 py-2 md:text-base text-sm bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium shadow-md hover:shadow-lg"
             >
-              Sign Up <br /> Free
+              Sign Up
             </button>
           </div>
         </div>

@@ -202,8 +202,6 @@ export default function Signup() {
         email: emailData.email,
       });
 
-      
-
       if (res.data.devOTP) setDevOTP(res.data.devOTP);
       setOtpSent(true);
       alert("OTP sent to your email!");
@@ -239,11 +237,20 @@ export default function Signup() {
         }
       );
 
-      // Complete signup with username and password
+      // ✅ FIX: Include otpValue in the request
+      const signupPayload = {
+        ...emailData,
+        otp: otpValue, // Add the actual OTP value
+      };
+
+      console.log("pre-data", signupPayload);
+
       const res = await axios.post(
         `${apiBase}/api/auth/complete-email-signup`,
-        emailData
+        signupPayload // Send the complete data with OTP
       );
+
+      console.log("post-data", res.data);
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
