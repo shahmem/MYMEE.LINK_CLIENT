@@ -217,10 +217,10 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
   const apiBase = import.meta.env.VITE_API_URL;
 
   return (
-    <div
+     <div
       className="flex flex-col items-center gap-3 p-4 relative h-screen w-full "
       style={{
-        backgroundColor: theme.bgColor, // fallback
+        backgroundColor: theme.bgColor, 
         backgroundImage: theme.bgImage ? `url(${theme.bgImage})` : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
