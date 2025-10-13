@@ -1,9 +1,8 @@
 // Components/ShareButton.jsx
+import { Share } from "lucide-react";
 import { useState } from "react";
-import { FaShare, FaCopy, FaCheck } from "react-icons/fa";
 
 function ShareButton({ user, theme }) {
-  const [copied, setCopied] = useState(false);
 
   // Generate the correct profile URL
   const profileUrl = `${window.location.origin}/${user.username}`;
@@ -37,7 +36,7 @@ function ShareButton({ user, theme }) {
         className="p-2 rounded-full hover:scale-110 transition-transform"
         title="Share profile"
       >
-        <FaShare size={20} />
+        <Share size={16} />
       </button>
     </div>
   );

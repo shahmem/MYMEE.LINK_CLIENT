@@ -225,7 +225,7 @@ export default function Landing() {
           {/* QR Code Button */}
           <button
             onClick={()=>{setShowQRModal}}
-            className="w-full sm:w-auto bg-white border-2 border-lime-500 text-lime-600 hover:bg-lime-50 font-semibold px-8 py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
+            className="w-full sm:w-auto bg-white border-2 border-lime-400 text-lime-500 hover:bg-lime-50 font-semibold px-8 py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
           >
             <svg 
               className="w-5 h-5" 

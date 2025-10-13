@@ -90,6 +90,7 @@ function LinkPanel({ links, setLinks, user }) {
             ref={provided.innerRef}
             className="space-y-3"
           >
+            <h2 className="text-left py-4 font-bold text-lg text-gray-600">LINKS</h2>
             {items.map((link, index) => (
               <Draggable
                 key={link._id}

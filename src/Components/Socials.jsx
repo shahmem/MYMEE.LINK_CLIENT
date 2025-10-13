@@ -47,34 +47,36 @@ function Socials({
       name: "Email",
       key: "email",
       icon: <MdEmail size={24} className="text-red-500" />,
-      placeholder: "Enter email address",
+      placeholder: "example@gmail.com",
       buildUrl: (val) => `mailto:${val}`,
+    },
+    {
+      name: "Save Contact",
+      key: "contact",
+      icon: <FaAddressBook size={24} className="text-blue-500" />,
+      placeholder: "Enter phone number with country code",
+      buildUrl: (val) => {
+        // Create a vCard that can be downloaded/saved to contacts
+        const phone = val.replace(/\s+/g, "");
+        const name = user?.name || "Contact"; // Use user's name from props
+
+        const vCard = `BEGIN:VCARD
+VERSION:3.0
+FN:${name}
+TEL;TYPE=CELL:+${phone}
+END:VCARD`;
+
+        // Encode the vCard as a data URL
+        return `data:text/vcard;charset=utf-8,${encodeURIComponent(vCard)}`;
+      },
     },
     {
       name: "Call",
       key: "call",
       icon: <FaPhoneAlt size={20} className="text-green-600" />, // import FaPhoneAlt from react-icons/fa
-      placeholder: "Enter phone number",
-      buildUrl: (val) => `tel:+91${val}`,
+      placeholder: "phone number with country code",
+      buildUrl: (val) => `tel:+${val}`,
     },
-//     {
-//       name: "Contact",
-//       key: "contact",
-//       icon: <FaAddressBook size={24} className="text-green-600" />,
-//       placeholder: "Enter phone number",
-//       buildUrl: (val) => {
-//         const vcard = `
-// BEGIN:VCARD
-// VERSION:3.0
-// FN:New Contact
-// TEL:+91${val}
-// END:VCARD
-//     `.trim();
-
-//         const blob = new Blob([vcard], { type: "text/vcard" });
-//         return URL.createObjectURL(blob);
-//       },
-//     },
 
     {
       name: "Facebook",
@@ -239,6 +241,20 @@ function Socials({
     },
   ];
 
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+
+    // If selected platform is "call" → allow only digits
+    if (selectedPlatform.key === "call" || selectedPlatform.key === "contact") {
+      if (/^\d*$/.test(value)) {
+        setInputValue(value);
+      }
+    } else {
+      // For other platforms → allow normal text
+      setInputValue(value);
+    }
+  };
+
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       setOpen(false);
@@ -255,7 +271,7 @@ function Socials({
 
     const platform = socialitems.find((s) => s.key === selected);
     const url = platform.buildUrl(inputValue.replace(/\s+/g, ""));
-  
+
     setLoading(true);
     try {
       await axios.post(`${apiBase}/api/sociallinks/${user._id}`, {
@@ -322,17 +338,18 @@ function Socials({
                 </button>
               </>
             ) : (
-              <>
-                <h2 className="font-semibold text-center">
-                  Add {selectedPlatform.name} Link
-                </h2>
-                <div className="flex justify-center mb-4">
+              <div className="space-y-5 ">
+                <h2 className="inline-flex font-semibold text-center items-center">
+                  Add {selectedPlatform.name} Link &nbsp;{" "}
                   {selectedPlatform.icon}
-                </div>
+                </h2>
                 <input
                   type="text"
                   value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleAdd();
+                  }}
+                  onChange={handleInputChange}
                   placeholder={selectedPlatform.placeholder}
                   className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-teal-400"
                   autoFocus
@@ -356,7 +373,7 @@ function Socials({
                     {loading ? "Adding..." : "Add"}
                   </button>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>

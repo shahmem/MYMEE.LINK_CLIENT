@@ -1,7 +1,3 @@
-// Login.jsx
-// Note: This component uses react-router-dom and axios which need to be installed
-// npm install react-router-dom axios
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -19,7 +15,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -41,16 +36,13 @@ export default function Login() {
         password: formData.password,
       });
 
-      // Store token and user data
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      // Configure axios default header
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${res.data.token}`;
 
-      // Navigate to dashboard
       navigate("/dashboard");
     } catch (err) {
       setError(
@@ -66,7 +58,7 @@ export default function Login() {
       <Navbar />
       <div className="min-h-screen  flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
-          {/* Header */} 
+          {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800 mb-2">
               Welcome Back
@@ -84,7 +76,6 @@ export default function Login() {
               </label>
               <input
                 type="text"
-                
                 name="whatsapp"
                 value={formData.whatsapp}
                 onChange={handleChange}

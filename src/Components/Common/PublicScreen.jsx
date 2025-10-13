@@ -26,8 +26,11 @@ import {
 import { MdEmail } from "react-icons/md";
 import { SiClubhouse, SiFlipkart, SiGoogleplay } from "react-icons/si";
 import ShareButton from "../ShareButton";
+import { useLocation } from "react-router-dom";
 
 function PublicScreen({ links, user, socialLinks, theme, position }) {
+  const location = useLocation();
+  const isDashboard = location.pathname.includes("/dashboard");
   const iconMap = {
     email: (
       <MdEmail
@@ -213,18 +216,21 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
       />
     ),
   };
+  console.log(theme);
 
   const apiBase = import.meta.env.VITE_API_URL;
 
   return (
-     <div
-      className="flex flex-col items-center gap-3 p-4 relative h-screen w-full "
+    <div
+      className={`flex flex-col items-center  gap-3 p-4 ${
+        isDashboard ? "rounded-2xl h-full" : " h-screen"
+      }  relative w-full `}
       style={{
-        backgroundColor: theme.bgColor, 
-        backgroundImage: theme.bgImage ? `url(${theme.bgImage})` : "none",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        background: theme.bgImage
+          ? `url(${apiBase}${
+              theme.bgImage
+            }) center/cover no-repeat`
+          : theme.bgColor,
       }}
     >
       {user && <ShareButton user={user} theme={theme} />}

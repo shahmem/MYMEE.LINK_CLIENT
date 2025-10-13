@@ -4,7 +4,15 @@ import LinkPanel from "./LinkPanel";
 import Socials from "./Socials";
 import { FiMoreVertical } from "react-icons/fi";
 
-function LinksContent({ links, setLinks, refreshSocialLinks, user, setUser, setSocialLinks, socialLinks }) {
+function LinksContent({
+  links,
+  setLinks,
+  refreshSocialLinks,
+  user,
+  setUser,
+  setSocialLinks,
+  socialLinks,
+}) {
   const apiBase = import.meta.env.VITE_API_URL;
   const [showForm, setShowForm] = useState(false);
   const [showHeaderForm, setShowHeaderForm] = useState(false);
@@ -23,7 +31,7 @@ function LinksContent({ links, setLinks, refreshSocialLinks, user, setUser, setS
 
   const handleDeleteHeader = async () => {
     try {
-      await axios.delete(`${apiBase}/api/user/header/delete/${user._id}`);
+      await axios.delete(`${apiBase}/api/user/${user._id}/header/delete`);
       setUser((prev) => ({ ...prev, header: "" }));
       setEditingHeader(false);
     } catch (err) {
@@ -32,7 +40,9 @@ function LinksContent({ links, setLinks, refreshSocialLinks, user, setUser, setS
   };
   const handleSave = async () => {
     try {
-      const res = await axios.put(`${apiBase}/api/user/header/${user._id}`, { header });
+      const res = await axios.put(`${apiBase}/api/user/${user._id}/header`, {
+        header,
+      });
 
       setUser((prev) => ({ ...prev, header }));
 
@@ -51,18 +61,18 @@ function LinksContent({ links, setLinks, refreshSocialLinks, user, setUser, setS
     formData.append("title", title);
     formData.append("url", url);
     if (icon) formData.append("icon", icon);
-
+    
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/links/${user._id}`,
         formData
       );
+      setShowForm(false);
       setLinks(data);
       console.log("Saved:", data);
       setTitle("");
       setUrl("");
       setIcon(null);
-      setShowForm(false);
     } catch (err) {
       console.error(err.message);
       console.log("errorrrr");
@@ -100,8 +110,11 @@ function LinksContent({ links, setLinks, refreshSocialLinks, user, setUser, setS
               required
             />
             <input
-              type="url"
+              type="text"
               placeholder="Enter URL"
+              onKeyDown={(e) => {
+                  if (e.key === "Enter") handleSubmit();
+                }}
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               className="w-full px-3 bg-gray-100 focus:bg-gray-200 py-2.5 rounded-md focus:outline-none  text-sm"
@@ -150,6 +163,9 @@ function LinksContent({ links, setLinks, refreshSocialLinks, user, setUser, setS
                 type="text"
                 value={header}
                 onChange={(e) => setHeader(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleSave();
+                }}
                 placeholder="Enter Title"
                 className="w-full px-3 bg-gray-100 focus:bg-gray-200  py-2.5 rounded-sm focus:outline-none  text-sm"
               />
@@ -191,7 +207,10 @@ function LinksContent({ links, setLinks, refreshSocialLinks, user, setUser, setS
           onClick={() => setEditingHeader(true)}
         >
           <h4 className=" flex-1 font-semibold capitalize">{user.header}</h4>
-          <FiMoreVertical size={16} className="mr-4 cursor-pointer text-gray-600" />
+          <FiMoreVertical
+            size={16}
+            className="mr-4 cursor-pointer text-gray-600"
+          />
         </div>
       )}
 
@@ -215,7 +234,13 @@ function LinksContent({ links, setLinks, refreshSocialLinks, user, setUser, setS
       )}
 
       <LinkPanel links={links} setLinks={setLinks} user={user} />
-      <Socials user={user} apiBase={apiBase} socialLinks={socialLinks} refreshSocialLinks={refreshSocialLinks} setSocialLinks={setSocialLinks} />
+      <Socials
+        user={user}
+        apiBase={apiBase}
+        socialLinks={socialLinks}
+        refreshSocialLinks={refreshSocialLinks}
+        setSocialLinks={setSocialLinks}
+      />
     </div>
   );
 }

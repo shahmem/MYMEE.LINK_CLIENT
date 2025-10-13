@@ -6,12 +6,16 @@ function Themes({ user, currentTheme, setTheme }) {
   const apiBase = import.meta.env.VITE_API_URL;
   const [builtinThemes, setBuiltinThemes] = useState({});
   const [customTheme, setCustomTheme] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const bgColorRef = useRef(null);
   const linkColorRef = useRef(null);
+  const bgImageInputRef = useRef(null);
+  const bgVideoInputRef = useRef(null);
 
   const defaultCustomTheme = {
     name: "custom",
+    bgType: "color",
     bgColor: "#ffffff",
     bgVideo: "",
     bgImage: "",
@@ -95,6 +99,152 @@ function Themes({ user, currentTheme, setTheme }) {
     }
   };
 
+  // Handle background image upload
+  const handleBgImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file");
+      return;
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image size should be less than 5MB");
+      return;
+    }
+
+    setUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("themebg", file);
+
+      // Add other theme properties
+      Object.keys(customTheme).forEach((key) => {
+        if (key !== "bgImage") {
+          formData.append(key, customTheme[key]);
+        }
+      });
+
+      const response = await axios.post(
+        `${apiBase}/api/user/theme/custom/${user._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.data?.theme) {
+        const updatedTheme = { ...response.data.theme, bgType: "image" };
+        setCustomTheme(updatedTheme);
+        setTheme(updatedTheme);
+      }
+    } catch (err) {
+      console.error("Upload failed:", err);
+      alert("Failed to upload image. Please try again.");
+    } finally {
+      setUploading(false);
+      event.target.value = "";
+    }
+  };
+
+  // Handle background video upload
+  const handleBgVideoUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith("video/")) {
+      alert("Please select a video file");
+      return;
+    }
+
+    // Validate file size (20MB for video)
+    if (file.size > 20 * 1024 * 1024) {
+      alert("Video size should be less than 20MB");
+      return;
+    }
+
+    setUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("themebg", file);
+
+      // Add other theme properties
+      Object.keys(customTheme).forEach((key) => {
+        if (key !== "bgVideo") {
+          formData.append(key, customTheme[key]);
+        }
+      });
+
+      const response = await axios.post(
+        `${apiBase}/api/user/theme/custom/${user._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.data?.theme) {
+        const updatedTheme = { ...response.data.theme, bgType: "video" };
+        setCustomTheme(updatedTheme);
+        setTheme(updatedTheme);
+      }
+    } catch (err) {
+      console.error("Upload failed:", err);
+      alert("Failed to upload video. Please try again.");
+    } finally {
+      setUploading(false);
+      event.target.value = "";
+    }
+  };
+
+  // Remove background image/video
+  const removeBgMedia = async () => {
+    if (!user?._id) return;
+
+    try {
+      // Get the current background image/video path
+      const bgImage = customTheme.bgImage;
+      const bgVideo = customTheme.bgVideo;
+
+      // Call backend to delete the file and update database
+      const response = await axios.delete(
+        `${apiBase}/api/user/theme/background/${user._id}`,
+        {
+          data: {
+            bgImage: bgImage,
+            bgVideo: bgVideo,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        // Update local state
+        const updatedTheme = {
+          ...customTheme,
+          bgImage: "",
+          bgVideo: "",
+          bgType: "color",
+        };
+
+        setCustomTheme(updatedTheme);
+        setTheme(updatedTheme);
+      }
+    } catch (err) {
+      console.error("Failed to remove background media:", err);
+      alert("Failed to remove background. Please try again.");
+    }
+  };
+
   const renderColorPickerIcon = (label, key, value, presets = [], ref) => (
     <div className="space-y-3 relative">
       <p className="text-xs text-left ">{label}</p>
@@ -104,7 +254,7 @@ function Themes({ user, currentTheme, setTheme }) {
           value={value || "#000000"}
           onChange={(e) => updateCustomTheme(key, e.target.value)}
           ref={ref}
-          className="absolute w-10 h-10 opacity-0 cursor-pointer" // invisible but clickable
+          className="absolute w-10 h-10 opacity-0 cursor-pointer"
         />
         <button
           type="button"
@@ -127,6 +277,22 @@ function Themes({ user, currentTheme, setTheme }) {
 
   return (
     <div className="flex max-w-md mx-auto flex-col gap-6 pt-4">
+      {/* Hidden file inputs */}
+      <input
+        ref={bgImageInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleBgImageUpload}
+        className="hidden"
+      />
+      <input
+        ref={bgVideoInputRef}
+        type="file"
+        accept="video/*"
+        onChange={handleBgVideoUpload}
+        className="hidden"
+      />
+
       {/* Builtin Themes */}
       <div className="grid grid-cols-2 bg-white p-8 gap-6 flex-wrap">
         {Object.keys(builtinThemes).map((themeName) => (
@@ -170,35 +336,82 @@ function Themes({ user, currentTheme, setTheme }) {
             <div className="flex justify-around gap-2">
               <button
                 onClick={() => updateCustomTheme("bgType", "color")}
+                disabled={uploading}
                 className={`w-16 h-16 border rounded ${
                   customTheme.bgType === "color"
-                    ? "border-blue-600"
+                    ? "border-blue-600 bg-blue-50"
                     : "border-gray-300"
-                } flex items-center justify-center`}
+                } flex items-center justify-center hover:bg-gray-50 transition ${
+                  uploading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
                 🎨
               </button>
               <button
-                onClick={() => updateCustomTheme("bgType", "video")}
-                className={`w-16 h-16 border rounded ${
-                  customTheme.bgType === "video"
-                    ? "border-blue-600"
-                    : "border-gray-300"
-                } flex items-center justify-center`}
-              >
-                🎥
-              </button>
-              <button
-                onClick={() => updateCustomTheme("bgType", "image")}
+                onClick={() => bgImageInputRef.current?.click()}
+                disabled={uploading}
                 className={`w-16 h-16 border rounded ${
                   customTheme.bgType === "image"
-                    ? "border-blue-600"
+                    ? "border-blue-600 bg-blue-50"
                     : "border-gray-300"
-                } flex items-center justify-center`}
+                } flex items-center justify-center hover:bg-gray-50 transition relative ${
+                  uploading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                🖼️
+                {uploading && customTheme.bgType === "image" ? (
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                ) : (
+                  "🖼️"
+                )}
+              </button>
+              <button
+                onClick={() => bgVideoInputRef.current?.click()}
+                disabled={uploading}
+                className={`w-16 h-16 border rounded ${
+                  customTheme.bgType === "video"
+                    ? "border-blue-600 bg-blue-50"
+                    : "border-gray-300"
+                } flex items-center justify-center hover:bg-gray-50 transition relative ${
+                  uploading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                {uploading && customTheme.bgType === "video" ? (
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                ) : (
+                  "🎥"
+                )}
               </button>
             </div>
+
+            {/* Show uploaded media preview */}
+            {(customTheme.bgImage || customTheme.bgVideo) && (
+              <div className="relative inline-block">
+                {customTheme.bgImage && (
+                  <div className="w-full h-32 rounded border overflow-hidden">
+                    <img
+                      src={`${apiBase}${customTheme.bgImage}`}
+                      alt="Background preview"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                {customTheme.bgVideo && (
+                  <div className="w-full h-32 rounded border overflow-hidden bg-gray-100 flex items-center justify-center">
+                    <span className="text-sm text-gray-600">
+                      🎥 Video uploaded
+                    </span>
+                  </div>
+                )}
+                <button
+                  onClick={removeBgMedia}
+                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 shadow-md transition-colors"
+                  type="button"
+                  title="Remove media"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
 
             {/* Background Color Picker */}
             {renderColorPickerIcon(

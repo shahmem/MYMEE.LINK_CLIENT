@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import axios from "axios";
 
-function SocialLinks({ apiBase, socialitems, setSocialLinks, socialLinks, user }) {
+function SocialLinks({
+  apiBase,
+  socialitems,
+  setSocialLinks,
+  socialLinks,
+  user,
+}) {
   const [editing, setEditing] = useState(null);
   const [inputValue, setInputValue] = useState("");
 
@@ -32,31 +38,33 @@ function SocialLinks({ apiBase, socialitems, setSocialLinks, socialLinks, user }
     }
   };
 
-const handleSave = async () => {
-  if (!editing) return;
+  const handleSave = async () => {
+    if (!editing) return;
 
-  try {
-    const updatedUrl =
-      editing.url.split("/").slice(0, -1).join("/") + "/" + inputValue.replace(/\s+/g, "");
+    try {
+      const updatedUrl =
+        editing.url.split("/").slice(0, -1).join("/") +
+        "/" +
+        inputValue.replace(/\s+/g, "");
 
-    const res = await axios.put(`${apiBase}/api/sociallinks/${user._id}`, {
-      id: editing._id,   
-      url: updatedUrl,   
-    });
+      const res = await axios.put(`${apiBase}/api/sociallinks/${user._id}`, {
+        id: editing._id,
+        url: updatedUrl,
+      });
 
-    // Instant state update
-    setSocialLinks((prev) =>
-      prev.map((l) =>
-        l._id === editing._id ? { ...l, url: res.data.link.url } : l
-      )
-    );
+      // Instant state update
+      setSocialLinks((prev) =>
+        prev.map((l) =>
+          l._id === editing._id ? { ...l, url: res.data.link.url } : l
+        )
+      );
 
-    setEditing(null);
-    setInputValue("");
-  } catch (err) {
-    console.error(err);
-  }
-};
+      setEditing(null);
+      setInputValue("");
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -82,6 +90,8 @@ const handleSave = async () => {
               ref={provided.innerRef}
               className="space-y-2"
             >
+              <h2 className="text-left font-bold text-lg py-5 text-gray-600">SOCIALS</h2>
+
               {socialLinks.map((link, index) => (
                 <Draggable key={link._id} draggableId={link._id} index={index}>
                   {(provided) => (
@@ -92,7 +102,7 @@ const handleSave = async () => {
                       className="flex justify-between items-center p-4 shadow bg-white rounded cursor-pointer"
                       onClick={() => {
                         setEditing(link);
-                        setInputValue(link.url.split("/").pop()); 
+                        setInputValue(link.url.split("/").pop());
                       }}
                     >
                       <div className="flex items-center gap-5">
