@@ -173,7 +173,7 @@ export default function Landing() {
       )}
 
       {/* Hero Section */}
-      <div className="min-h-screen bg-[#fffffc] px-4 sm:px-6 lg:px-8  pt-24 md:pt-24 ">
+      <div className="min-h-screen bg-[#fffffc] px-4 sm:px-6 lg:px-8  pt-32 md:pt-24 ">
       <div className="max-w-5xl mx-auto text-center">
         {/* Waitlist Badge */}
         <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 border border-gray-300 rounded-full mb-8 mt-4 lg:mt-12 md:mt-8 sm:mb-8 bg-white shadow-sm">
