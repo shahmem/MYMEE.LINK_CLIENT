@@ -45,7 +45,11 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
+<<<<<<< HEAD
     ),
+=======
+   ),
+>>>>>>> 5e7f0204dd054a8dbc2fcaefc9f05c77846afb68
     call: (
       <FaPhoneAlt
         size={24}
