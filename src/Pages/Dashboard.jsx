@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Tabs from "../Components/Tabs";
 import LiveScreen from "../Components/LiveScreen";
 import api from "../api/axios"; // Import configured axios
+import Navbar from "../Components/Navbar";
 
 // ✅ Define your default custom theme
 const defaultCustomTheme = {
@@ -36,7 +37,7 @@ function Dashboard() {
     const fetchAllData = async () => {
       try {
         setLoading(true);
-        
+
         // Check if user is logged in
         const token = localStorage.getItem("token");
         if (!token) {
@@ -52,7 +53,11 @@ function Dashboard() {
         // Fetch user's theme
         const themeRes = await api.get(`/api/user/${fetchedUser._id}/theme`);
         const fetchedTheme = themeRes.data;
-        setTheme(fetchedTheme && Object.keys(fetchedTheme).length > 0 ? fetchedTheme : defaultCustomTheme);
+        setTheme(
+          fetchedTheme && Object.keys(fetchedTheme).length > 0
+            ? fetchedTheme
+            : defaultCustomTheme
+        );
 
         // Fetch links
         const linksRes = await api.get(`/api/links/${fetchedUser._id}`);
@@ -61,12 +66,11 @@ function Dashboard() {
         // Fetch social links
         const socialRes = await api.get(`/api/sociallinks/${fetchedUser._id}`);
         setSocialLinks(socialRes.data);
-        
       } catch (err) {
         console.error("Error fetching data:", err);
         setError(err.response?.data?.message || "Failed to load data");
         setTheme(defaultCustomTheme);
-        
+
         // If unauthorized, redirect to login
         if (err.response?.status === 401) {
           localStorage.removeItem("token");
@@ -131,30 +135,32 @@ function Dashboard() {
   if (!theme) return null;
 
   return (
-    <div className="flex md:flex-row flex-col min-h-screen">
-      <LiveScreen
-        links={links}
-        socialLinks={socialLinks}
-        user={user}
-        theme={theme}
-        position={position}
+    <div className=" h-screen">
+      <Navbar />
+      <div className="flex overflow-auto md:flex-row flex-col">
+        <LiveScreen
+          links={links}
+          socialLinks={socialLinks}
+          user={user}
+          theme={theme}
+          position={position}
+        />
 
-      />
-
-      <Tabs
-        links={links}
-        setLinks={setLinks}
-        socialLinks={socialLinks}
-        setSocialLinks={setSocialLinks}
-        refreshSocialLinks={refreshSocialLinks}
-        user={user}
-        setUser={setUser}
-        currentTheme={theme}
-        setTheme={setTheme} 
-        position={position}
-        setPosition={setPosition}
-        onLogout={handleLogout}
-      />
+        <Tabs
+          links={links}
+          setLinks={setLinks}
+          socialLinks={socialLinks}
+          setSocialLinks={setSocialLinks}
+          refreshSocialLinks={refreshSocialLinks}
+          user={user}
+          setUser={setUser}
+          currentTheme={theme}
+          setTheme={setTheme}
+          position={position}
+          setPosition={setPosition}
+          onLogout={handleLogout}
+        />
+      </div>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import Dashboard from "./Pages/Dashboard";
 import Signup from "./Components/auth/SignUp";
 import Login from "./Components/auth/Login";
 import PublicProfile from "./Components/PublicProfile"; // Import the new PublicProfile component
+import ForgotPassword from "./Components/auth/ForgotPassword";
 
 // Protected Route Component - Only allows authenticated users
 const ProtectedRoute = ({ children }) => {
@@ -43,6 +44,14 @@ function App() {
           element={
             <PublicRoute>
               <Signup />
+            </PublicRoute>
+          } 
+        />
+        <Route 
+          path="/forgot-passsword" 
+          element={
+            <PublicRoute>
+              <ForgotPassword />
             </PublicRoute>
           } 
         />

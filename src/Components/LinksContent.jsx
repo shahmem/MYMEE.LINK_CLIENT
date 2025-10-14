@@ -61,7 +61,7 @@ function LinksContent({
     formData.append("title", title);
     formData.append("url", url);
     if (icon) formData.append("icon", icon);
-    
+
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/links/${user._id}`,
@@ -113,8 +113,8 @@ function LinksContent({
               type="text"
               placeholder="Enter URL"
               onKeyDown={(e) => {
-                  if (e.key === "Enter") handleSubmit();
-                }}
+                if (e.key === "Enter") handleSubmit();
+              }}
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               className="w-full px-3 bg-gray-100 focus:bg-gray-200 py-2.5 rounded-md focus:outline-none  text-sm"
@@ -221,11 +221,13 @@ function LinksContent({
           }
           className="fixed top-0 left-0 h-screen w-screen flex justify-center items-center bg-[#11111148] z-30"
         >
-          <div className="bg-white w-sm h-40 gap-5 rounded flex flex-col justify-center items-center ">
-            <p className="text-lg font-semibold ">{user.header}</p>
+          <div className="bg-white w-sm h-40 rounded flex flex-col justify-between items-center ">
+            <div className="flex-1 flex items-center ">
+              <p className="text-lg font-semibold">{user.header}</p>
+            </div>
             <button
               onClick={handleDeleteHeader}
-              className=" text-red-600 font-semibold bg-gray-50 hover:bg-gray-100 rounded"
+              className="flex- text-red-600 font-semibold bg-gray-50 py-3 hover:bg-gray-100 w-full"
             >
               Delete
             </button>

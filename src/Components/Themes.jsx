@@ -12,6 +12,14 @@ function Themes({ user, currentTheme, setTheme }) {
   const linkColorRef = useRef(null);
   const bgImageInputRef = useRef(null);
   const bgVideoInputRef = useRef(null);
+  const textColorRef = useRef(null);
+  const borderColorRef = useRef(null);
+  const nameColorRef = useRef(null);
+  const shadowColorRef = useRef(null);
+  const headerColorRef = useRef(null);
+  const bioColorRef = useRef(null);
+  const iconColorRef = useRef(null);
+  const iconBgRef = useRef(null);
 
   const defaultCustomTheme = {
     name: "custom",
@@ -28,6 +36,15 @@ function Themes({ user, currentTheme, setTheme }) {
     linkRadius: "24px",
     headerColor: "#000000",
     fontStyle: "Inter, sans-serif",
+    // New fields
+    linkTextColor: "#000000",
+    linkBorderColor: "transparent",
+    linkShadow: "none",
+    linkHoverEffect: "scale",
+    buttonStyle: "solid",
+    nameSize: "28px",
+    bioSize: "14px",
+    linkSize: "16px",
   };
 
   const availableFonts = [
@@ -246,9 +263,8 @@ function Themes({ user, currentTheme, setTheme }) {
   };
 
   const renderColorPickerIcon = (label, key, value, presets = [], ref) => (
-    <div className="space-y-3 relative">
-      <p className="text-xs text-left ">{label}</p>
-      <div className="flex items-center gap-2">
+    <div className="space-y-6 relative">
+      <div className="flex items-center justify-center gap-5">
         <input
           type="color"
           value={value || "#000000"}
@@ -272,6 +288,7 @@ function Themes({ user, currentTheme, setTheme }) {
           />
         ))}
       </div>
+      <p className="text-xs text-left ">{label}</p>
     </div>
   );
 
@@ -412,20 +429,62 @@ function Themes({ user, currentTheme, setTheme }) {
                 </button>
               </div>
             )}
-
-            {/* Background Color Picker */}
-            {renderColorPickerIcon(
-              "Background Color",
-              "bgColor",
-              customTheme.bgColor,
-              bgPresets,
-              bgColorRef
-            )}
+            <div className="flex gap-4">
+              {/* Background Color Picker */}
+              {renderColorPickerIcon(
+                "Background Color",
+                "bgColor",
+                customTheme.bgColor,
+                bgPresets,
+                bgColorRef
+              )}
+              {renderColorPickerIcon(
+                "Name Color",
+                "nameColor",
+                customTheme.nameColor,
+                bgPresets,
+                nameColorRef
+              )}
+              {renderColorPickerIcon(
+                "Bio Color",
+                "bioColor",
+                customTheme.bioColor,
+                bgPresets,
+                bioColorRef
+              )}
+              {renderColorPickerIcon(
+                "Header Color",
+                "headerColor",
+                customTheme.headerColor,
+                bgPresets,
+                headerColorRef
+              )}
+            </div>
           </div>
 
           {/* Button Section */}
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-6">
             <span className="font-semibold text-left mt-5">Button</span>
+
+            {/* Button Style Selection - NEW */}
+            {/* <div className="space-y-3">
+              <p className="text-xs text-left">Button Style</p>
+              <div className="flex gap-3">
+                {["solid", "outline", "ghost"].map((style) => (
+                  <button
+                    key={style}
+                    onClick={() => updateCustomTheme("buttonStyle", style)}
+                    className={`px-4 py-2 text-sm rounded border transition ${
+                      customTheme.buttonStyle === style
+                        ? "border-blue-600 bg-blue-50"
+                        : "border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    {style.charAt(0).toUpperCase() + style.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div> */}
 
             {/* Button Radius */}
             <div className="flex justify-around gap-4 mt-4">
@@ -446,15 +505,169 @@ function Themes({ user, currentTheme, setTheme }) {
                 />
               ))}
             </div>
+            <div className="flex gap-3.5">
+              {/* Button Color Picker */}
+              {renderColorPickerIcon(
+                "Button Color",
+                "linkBg",
+                customTheme.linkBg,
+                buttonPresets,
+                linkColorRef
+              )}
 
-            {/* Button Color Picker */}
+              {/* Button Text Color - NEW */}
+              {renderColorPickerIcon(
+                "Button Text Color",
+                "linkColor",
+                customTheme.linkColor || "#000000",
+                ["#000000", "#ffffff", "#0066cc"],
+                textColorRef
+              )}
+
+              {/* Button Border Color - NEW */}
+              {renderColorPickerIcon(
+                "Button Border Color",
+                "linkBorderColor",
+                customTheme.linkBorderColor || "transparent",
+                ["transparent", "#000000", "#0066cc"],
+                borderColorRef
+              )}
+
+              {/* Button Hover Effect - NEW */}
+              {/* <div className="space-y-3">
+              <p className="text-xs text-left">Hover Effect</p>
+              <div className="flex gap-3 flex-wrap">
+                {["scale", "lift", "glow", "none"].map((effect) => (
+                  <button
+                    key={effect}
+                    onClick={() => updateCustomTheme("linkHoverEffect", effect)}
+                    className={`px-4 py-2 text-sm rounded border transition ${
+                      customTheme.linkHoverEffect === effect
+                        ? "border-blue-600 bg-blue-50"
+                        : "border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    {effect.charAt(0).toUpperCase() + effect.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div> */}
+
+              {/* Button Shadow - NEW */}
+              {/* <div className="space-y-3">
+              <p className="text-xs text-left">Button Shadow</p>
+              <div className="flex gap-3 flex-wrap">
+                {[
+                  { label: "None", value: "none" },
+                  { label: "Small", value: "0 2px 4px rgba(0,0,0,0.1)" },
+                  { label: "Medium", value: "0 4px 8px rgba(0,0,0,0.15)" },
+                  { label: "Large", value: "0 8px 16px rgba(0,0,0,0.2)" },
+                ].map((shadow) => (
+                  <button
+                    key={shadow.value}
+                    onClick={() => updateCustomTheme("linkShadow", shadow.value)}
+                    className={`px-4 py-2 text-sm rounded border transition ${
+                      customTheme.linkShadow === shadow.value
+                        ? "border-blue-600 bg-blue-50"
+                        : "border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    {shadow.label}
+                  </button>
+                ))}
+              </div>
+            </div> */}
+            </div>
+          </div>
+
+          {/* Typography Section - NEW */}
+          {/* <div className="flex flex-col gap-3">
+            <span className="font-semibold text-left mt-5">Typography</span>
+
             {renderColorPickerIcon(
-              "Button Color",
-              "linkBg",
-              customTheme.linkBg,
-              buttonPresets,
-              linkColorRef
+              "Header Color",
+              "headerColor",
+              customTheme.headerColor || "#000000",
+              ["#000000", "#ffffff", "#0066cc"],
+              headerColorRef
             )}
+
+            {renderColorPickerIcon(
+              "Bio Color",
+              "bioColor",
+              customTheme.bioColor || "rgba(0,0,0,0.40)",
+              ["rgba(0,0,0,0.40)", "rgba(255,255,255,0.70)", "rgba(0,102,204,0.60)"],
+              bioColorRef
+            )}
+
+            <div className="space-y-3">
+              <p className="text-xs text-left">Name Size</p>
+              <input
+                type="range"
+                min="20"
+                max="48"
+                value={parseInt(customTheme.nameSize) || 28}
+                onChange={(e) => updateCustomTheme("nameSize", `${e.target.value}px`)}
+                className="w-full"
+              />
+              <span className="text-xs text-gray-500">
+                {customTheme.nameSize || "28px"}
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              <p className="text-xs text-left">Bio Size</p>
+              <input
+                type="range"
+                min="12"
+                max="20"
+                value={parseInt(customTheme.bioSize) || 14}
+                onChange={(e) => updateCustomTheme("bioSize", `${e.target.value}px`)}
+                className="w-full"
+              />
+              <span className="text-xs text-gray-500">
+                {customTheme.bioSize || "14px"}
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              <p className="text-xs text-left">Link Size</p>
+              <input
+                type="range"
+                min="12"
+                max="24"
+                value={parseInt(customTheme.linkSize) || 16}
+                onChange={(e) => updateCustomTheme("linkSize", `${e.target.value}px`)}
+                className="w-full"
+              />
+              <span className="text-xs text-gray-500">
+                {customTheme.linkSize || "16px"}
+              </span>
+            </div>
+          </div> */}
+
+          {/* Icon Section - NEW */}
+          <div className="flex flex-col gap-3">
+            <span className="font-semibold text-left mt-5">Icons</span>
+            <div className="flex  gap-2.5">
+              {/* Icon Color - NEW */}
+              {renderColorPickerIcon(
+                "Icon Color",
+                "iconColor",
+                customTheme.iconColor || "#000000",
+                ["#000000", "#ffffff", "#0066cc"],
+                iconColorRef
+              )}
+
+              {/* Icon Background - NEW */}
+              {renderColorPickerIcon(
+                "Icon Background",
+                "iconBg",
+                customTheme.iconBg || "#ffffff32",
+                ["#ffffff32", "#00000032", "rgba(0,102,204,0.20)"],
+                iconBgRef
+              )}
+            </div>
           </div>
 
           {/* Font Section */}

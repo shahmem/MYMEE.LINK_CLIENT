@@ -7,16 +7,17 @@ import Settings from "./Settings";
 
 function Tabs({links, setLinks, refreshSocialLinks, setUser, user, socialLinks, setSocialLinks, setTheme, currentTheme, position, setPosition, onLogout  }) {
   const [activeTab, setActiveTab] = useState("links");
+  const apiBase = import.meta.env.VITE_API_URL;
 
   const tabs = [
     { id: "links", label: "Links" },
     { id: "design", label: "Design" },
-    { id: "stats", label: "Stats" },
+    // { id: "stats", label: "Stats" },
     { id: "settings", label: "Settings" },
   ];
   return (
     <div className="md:px-16 py-12 h-screen overflow-auto w-full md:w-[55%] bg-gray-100">
-      <div className="w-full h-auto max-w-lg mx-auto">
+      <div className="w-full h-auto max-w-lg mx-auto  mt-24">
         <div className="flex border-b border-gray-300 relative">
           {tabs.map((tab) => (
             <button
@@ -63,7 +64,7 @@ function Tabs({links, setLinks, refreshSocialLinks, setUser, user, socialLinks, 
           {activeTab === "settings" && (
             <p>
               {" "}
-              <Settings user={user} setUser={setUser}/>
+              <Settings user={user} setUser={setUser} apiBase={apiBase} />
             </p>
           )}
           <LogoutButton onLogout={onLogout} />

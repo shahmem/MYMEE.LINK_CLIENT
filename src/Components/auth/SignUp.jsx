@@ -12,7 +12,9 @@ import {
   Mail,
   Eye,
   EyeOff,
+  Key,
 } from "lucide-react";
+import Navbar from "../Common/Navbar";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -43,6 +45,51 @@ export default function Signup() {
   const [whatsappCheck, setWhatsappCheck] = useState(null);
   const [devOTP, setDevOTP] = useState("");
   const [otpValue, setOtpValue] = useState("");
+
+  // Token System State
+  const [signupToken, setSignupToken] = useState("");
+  const [tokenCheck, setTokenCheck] = useState(null);
+  const [tokenValidating, setTokenValidating] = useState(false);
+
+  // Real-time token validation
+  const checkToken = async (token) => {
+    if (token.length !== 8) {
+      setTokenCheck({ valid: false, message: "Token must be 8 characters" });
+      return;
+    }
+
+    setTokenValidating(true);
+    try {
+      const res = await axios.post(`${apiBase}/api/auth/check-token`, {
+        token: token.toUpperCase(),
+      });
+      setTokenCheck({
+        valid: res.data.isValid,
+        message: res.data.message,
+      });
+      console.log(tokenCheck);
+    } catch (err) {
+      setTokenCheck({
+        valid: false,
+        message: err.response?.data?.message || "Error checking token",
+      });
+    } finally {
+      setTokenValidating(false);
+    }
+  };
+
+  // Handle token input change
+  const handleTokenChange = (e) => {
+    const value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+    setSignupToken(value);
+    setErrors({ ...errors, token: "" });
+
+    if (value.length === 8) {
+      setTimeout(() => checkToken(value), 500);
+    } else {
+      setTokenCheck(null);
+    }
+  };
 
   // Real-time username validation
   const checkUsername = async (username) => {
@@ -110,6 +157,16 @@ export default function Signup() {
   // WhatsApp Signup Flow
   const validateWhatsAppForm = () => {
     const newErrors = {};
+
+    // Validate token
+    if (!signupToken.trim()) {
+      newErrors.token = "Signup token is required";
+    } else if (signupToken.length !== 8) {
+      newErrors.token = "Token must be 8 characters";
+    } else if (tokenCheck && !tokenCheck.valid) {
+      newErrors.token = tokenCheck.message;
+    }
+
     if (!whatsappData.username.trim())
       newErrors.username = "Username is required";
     if (usernameCheck && !usernameCheck.available)
@@ -129,10 +186,10 @@ export default function Signup() {
 
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${apiBase}/api/auth/send-otp`,
-        whatsappData
-      );
+      const res = await axios.post(`${apiBase}/api/auth/send-otp`, {
+        ...whatsappData,
+        signupToken,
+      });
       if (res.data.devOTP) setDevOTP(res.data.devOTP);
       setOtpSent(true);
       alert("OTP sent to your WhatsApp!");
@@ -163,6 +220,7 @@ export default function Signup() {
       const res = await axios.post(`${apiBase}/api/auth/verify-otp`, {
         whatsapp: whatsappData.whatsapp,
         otp: otpValue,
+        signupToken,
       });
 
       localStorage.setItem("token", res.data.token);
@@ -183,6 +241,16 @@ export default function Signup() {
   // Email Signup Flow
   const validateEmailForm = () => {
     const newErrors = {};
+
+    // Validate token
+    if (!signupToken.trim()) {
+      newErrors.token = "Signup token is required";
+    } else if (signupToken.length !== 8) {
+      newErrors.token = "Token must be 8 characters";
+    } else if (tokenCheck && !tokenCheck.valid) {
+      newErrors.token = tokenCheck.message;
+    }
+
     if (!emailData.email.trim()) newErrors.email = "Email is required";
     if (!emailData.username.trim()) newErrors.username = "Username is required";
     if (usernameCheck && !usernameCheck.available)
@@ -200,6 +268,7 @@ export default function Signup() {
     try {
       const res = await axios.post(`${apiBase}/api/auth/send-email-otp`, {
         email: emailData.email,
+        signupToken,
       });
 
       if (res.data.devOTP) setDevOTP(res.data.devOTP);
@@ -237,17 +306,17 @@ export default function Signup() {
         }
       );
 
-      // ✅ FIX: Include otpValue in the request
       const signupPayload = {
         ...emailData,
-        otp: otpValue, // Add the actual OTP value
+        otp: otpValue,
+        signupToken,
       };
 
       console.log("pre-data", signupPayload);
 
       const res = await axios.post(
         `${apiBase}/api/auth/complete-email-signup`,
-        signupPayload // Send the complete data with OTP
+        signupPayload
       );
 
       console.log("post-data", res.data);
@@ -299,365 +368,460 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            Create Account
-          </h1>
-          <p className="text-gray-600">
-            Join <span className="font-semibold">Mymee.link</span> today
-          </p>
-        </div>
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="bg-white rounded-xl border border-gray-200 w-full max-w-md p-8 shadow-sm">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+              Create Account
+            </h1>
+            <p className="text-gray-600">
+              Join <span className="font-semibold">Mymee.link</span> today
+            </p>
+          </div>
 
-        {/* WhatsApp Signup Form */}
-        {signupMethod === "whatsapp" && (
-          <form onSubmit={handleWhatsAppSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <Phone className="inline w-4 h-4 mr-1" />
-                WhatsApp Number
-              </label>
-              <div className="relative">
-                <input
-                  type="tel"
-                  name="whatsapp"
-                  value={whatsappData.whatsapp}
-                  onChange={handleWhatsAppChange}
-                  disabled={otpSent}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
-                  placeholder="+919876543210"
-                />
-                {whatsappCheck && (
-                  <span className="absolute right-3 top-3">
-                    {whatsappCheck.available ? (
-                      <Check className="w-5 h-5 text-green-500" />
-                    ) : (
-                      <X className="w-5 h-5 text-red-500" />
-                    )}
-                  </span>
-                )}
-              </div>
-              {errors.whatsapp && (
-                <p className="text-red-500 text-sm mt-1">{errors.whatsapp}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <User className="inline w-4 h-4 mr-1" />
-                Username
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  name="username"
-                  value={whatsappData.username}
-                  onChange={handleWhatsAppChange}
-                  disabled={otpSent}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
-                  placeholder="johndoe"
-                />
-                {usernameCheck && (
-                  <span className="absolute right-3 top-3">
-                    {usernameCheck.available ? (
-                      <Check className="w-5 h-5 text-green-500" />
-                    ) : (
-                      <X className="w-5 h-5 text-red-500" />
-                    )}
-                  </span>
-                )}
-              </div>
-              {errors.username && (
-                <p className="text-red-500 text-sm mt-1">{errors.username}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <Lock className="inline w-4 h-4 mr-1" />
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={whatsappData.password}
-                  onChange={handleWhatsAppChange}
-                  disabled={otpSent}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10 disabled:bg-gray-100"
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
-                >
-                  {showPassword ? (
-                    <EyeOff className="w-5 h-5" />
-                  ) : (
-                    <Eye className="w-5 h-5" />
-                  )}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-              )}
-            </div>
-
-            {/* OTP Section - Shows after OTP is sent */}
-            {otpSent && (
-              <div className="pt-4 ">
+          {/* WhatsApp Signup Form */}
+          {signupMethod === "whatsapp" && (
+            <form onSubmit={handleWhatsAppSubmit} className="space-y-4">
+              {/* Token Input Field */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Key className="inline w-4 h-4 mr-1" />
+                  Signup Token
+                </label>
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    OTP Code
-                  </label>
                   <input
                     type="text"
-                    value={otpValue}
-                    onChange={(e) => {
-                      setOtpValue(
-                        e.target.value.replace(/\D/g, "").slice(0, 6)
-                      );
-                      setErrors({ ...errors, otp: "" });
-                    }}
-                    className="w-full px-4 py-1 border border-gray-300 rounded-lg text-lg tracking-widest  focus:border-transparent"
-                    placeholder="000000"
-                    maxLength={6}
+                    value={signupToken}
+                    onChange={handleTokenChange}
+                    disabled={otpSent}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:bg-gray-100 uppercase font-mono tracking-wider"
+                    placeholder="ABC12345"
+                    maxLength={8}
                   />
-                  <button
-                    type="button"
-                    onClick={handleResendOTP}
-                    disabled={loading}
-                    className="text-sm text-blue-600 right-4 top-5 hover:underline"
-                  >
-                    Resend OTP
-                  </button>
-                  {errors.otp && (
-                    <p className="text-red-500 text-sm mt-2 text-center">
-                      {errors.otp}
-                    </p>
+                  {tokenValidating && (
+                    <span className="absolute right-3 top-3">
+                      <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+                    </span>
+                  )}
+                  {!tokenValidating &&
+                    tokenCheck &&
+                    signupToken.length === 8 && (
+                      <span className="absolute right-3 top-3">
+                        {tokenCheck.valid ? (
+                          <Check className="w-5 h-5 text-green-500" />
+                        ) : (
+                          <X className="w-5 h-5 text-red-500" />
+                        )}
+                      </span>
+                    )}
+                </div>
+                {errors.token && (
+                  <p className="text-red-500 text-sm mt-1">{errors.token}</p>
+                )}
+                {tokenCheck && !tokenCheck.valid && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {tokenCheck.message}
+                  </p>
+                )}
+                <p className="text-xs text-gray-500 mt-1">
+                  Enter the 8-character token provided to you
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Phone className="inline w-4 h-4 mr-1" />
+                  WhatsApp Number
+                </label>
+                <div className="relative">
+                  <input
+                    type="tel"
+                    name="whatsapp"
+                    value={whatsappData.whatsapp}
+                    onChange={handleWhatsAppChange}
+                    disabled={otpSent}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:bg-gray-100"
+                    placeholder="+919876543210"
+                  />
+                  {whatsappCheck && (
+                    <span className="absolute right-3 top-3">
+                      {whatsappCheck.available ? (
+                        <Check className="w-5 h-5 text-green-500" />
+                      ) : (
+                        <X className="w-5 h-5 text-red-500" />
+                      )}
+                    </span>
                   )}
                 </div>
-                <div className="text-center mt-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setOtpSent(false);
-                      setOtpValue("");
-                    }}
-                    className="text-sm text-gray-600 hover:underline"
-                  >
-                    Change Number
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {errors.submit && (
-              <p className="text-red-500 text-sm">{errors.submit}</p>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:bg-gray-400 flex items-center justify-center"
-            >
-              {loading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : otpSent ? (
-                "Verify & Create Account"
-              ) : (
-                "Send OTP"
-              )}
-            </button>
-
-            <div className="text-center">
-              <button
-                type="button"
-                onClick={switchSignupMethod}
-                className="text-blue-600 text-sm hover:underline font-medium"
-              >
-                Sign up with Email instead
-              </button>
-            </div>
-
-            <p className="text-center text-sm text-gray-600 mt-4">
-              Already have an account?{" "}
-              <button
-                type="button"
-                onClick={() => navigate("/login")}
-                className="text-blue-600 font-semibold hover:underline"
-              >
-                Login
-              </button>
-            </p>
-          </form>
-        )}
-
-        {/* Email Signup Form */}
-        {signupMethod === "email" && (
-          <form onSubmit={handleEmailSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <Mail className="inline w-4 h-4 mr-1" />
-                Email Address
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={emailData.email}
-                onChange={handleEmailChange}
-                disabled={otpSent}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
-                placeholder="john@example.com"
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <User className="inline w-4 h-4 mr-1" />
-                Username
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  name="username"
-                  value={emailData.username.toLowerCase()}
-                  onChange={handleEmailChange}
-                  disabled={otpSent}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
-                  placeholder="johndoe"
-                />
-                {usernameCheck && (
-                  <span className="absolute right-3 top-3">
-                    {usernameCheck.available ? (
-                      <Check className="w-5 h-5 text-green-500" />
-                    ) : (
-                      <X className="w-5 h-5 text-red-500" />
-                    )}
-                  </span>
+                {errors.whatsapp && (
+                  <p className="text-red-500 text-sm mt-1">{errors.whatsapp}</p>
                 )}
               </div>
-              {errors.username && (
-                <p className="text-red-500 text-sm mt-1">{errors.username}</p>
-              )}
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <Lock className="inline w-4 h-4 mr-1" />
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={emailData.password}
-                  onChange={handleEmailChange}
-                  disabled={otpSent}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10 disabled:bg-gray-100"
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
-                >
-                  {showPassword ? (
-                    <EyeOff className="w-5 h-5" />
-                  ) : (
-                    <Eye className="w-5 h-5" />
-                  )}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-              )}
-            </div>
-
-            {/* OTP Section - Shows after OTP is sent */}
-            {otpSent && (
-              <div className="pt-4 ">
-                <div className="relative ">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    OTP Code
-                  </label>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <User className="inline w-4 h-4 mr-1" />
+                  Username
+                </label>
+                <div className="relative">
                   <input
                     type="text"
-                    value={otpValue}
-                    onChange={(e) => {
-                      setOtpValue(
-                        e.target.value.replace(/\D/g, "").slice(0, 6)
-                      );
-                      setErrors({ ...errors, otp: "" });
-                    }}
-                    className="w-full px-4 py-1 border border-gray-300 rounded-lg text-lg tracking-widest  focus:border-transparent"
-                    placeholder="000000"
-                    maxLength={6}
+                    name="username"
+                    value={whatsappData.username}
+                    onChange={handleWhatsAppChange}
+                    disabled={otpSent}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:bg-gray-100"
+                    placeholder="johndoe"
+                  />
+                  {usernameCheck && (
+                    <span className="absolute right-3 top-3">
+                      {usernameCheck.available ? (
+                        <Check className="w-5 h-5 text-green-500" />
+                      ) : (
+                        <X className="w-5 h-5 text-red-500" />
+                      )}
+                    </span>
+                  )}
+                </div>
+                {errors.username && (
+                  <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Lock className="inline w-4 h-4 mr-1" />
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={whatsappData.password}
+                    onChange={handleWhatsAppChange}
+                    disabled={otpSent}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent pr-10 disabled:bg-gray-100"
+                    placeholder="••••••••"
                   />
                   <button
                     type="button"
-                    onClick={handleResendOTP}
-                    disabled={loading}
-                    className="absolute right-4 top-10 text-sm text-blue-600 hover:underline"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
                   >
-                    Resend OTP
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
                   </button>
-                  {errors.otp && (
-                    <p className="text-red-500 text-sm mt-2 text-center">
-                      {errors.otp}
-                    </p>
+                </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+                )}
+              </div>
+
+              {/* OTP Section - Shows after OTP is sent */}
+              {otpSent && (
+                <div className="pt-4">
+                  <div className="relative">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      OTP Code
+                    </label>
+                    <input
+                      type="text"
+                      value={otpValue}
+                      onChange={(e) => {
+                        setOtpValue(
+                          e.target.value.replace(/\D/g, "").slice(0, 6)
+                        );
+                        setErrors({ ...errors, otp: "" });
+                      }}
+                      className="w-full px-4 py-1 border border-gray-300 rounded-lg text-lg tracking-widest focus:border-transparent"
+                      placeholder="000000"
+                      maxLength={6}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleResendOTP}
+                      disabled={loading}
+                      className="text-sm text-green-500 hover:text-green-600 hover:underline mt-2"
+                    >
+                      Resend OTP
+                    </button>
+                    {errors.otp && (
+                      <p className="text-red-500 text-sm mt-2 text-center">
+                        {errors.otp}
+                      </p>
+                    )}
+                  </div>
+                  <div className="text-center mt-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOtpSent(false);
+                        setOtpValue("");
+                      }}
+                      className="text-sm text-gray-600 hover:underline"
+                    >
+                      Change Number
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {errors.submit && (
+                <p className="text-red-500 text-sm">{errors.submit}</p>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors disabled:bg-gray-400 flex items-center justify-center"
+              >
+                {loading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : otpSent ? (
+                  "Verify & Create Account"
+                ) : (
+                  "Send OTP"
+                )}
+              </button>
+
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={switchSignupMethod}
+                  className="text-gray-600 text-sm hover:text-gray-900 hover:underline font-medium"
+                >
+                  Sign up with Email instead
+                </button>
+              </div>
+
+              <p className="text-center text-sm text-gray-600 mt-4">
+                Already have an account?{" "}
+                <button
+                  type="button"
+                  onClick={() => navigate("/login")}
+                  className="text-green-500 font-semibold hover:text-green-600 hover:underline"
+                >
+                  Login
+                </button>
+              </p>
+            </form>
+          )}
+
+          {/* Email Signup Form */}
+          {signupMethod === "email" && (
+            <form onSubmit={handleEmailSubmit} className="space-y-4">
+              {/* Token Input Field */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Key className="inline w-4 h-4 mr-1" />
+                  Signup Token
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={signupToken}
+                    onChange={handleTokenChange}
+                    disabled={otpSent}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:bg-gray-100 uppercase font-mono tracking-wider"
+                    placeholder="ABC12345"
+                    maxLength={8}
+                  />
+                  {tokenValidating && (
+                    <span className="absolute right-3 top-3">
+                      <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+                    </span>
+                  )}
+                  {!tokenValidating &&
+                    tokenCheck &&
+                    signupToken.length === 8 && (
+                      <span className="absolute right-3 top-3">
+                        {tokenCheck.valid ? (
+                          <Check className="w-5 h-5 text-green-500" />
+                        ) : (
+                          <X className="w-5 h-5 text-red-500" />
+                        )}
+                      </span>
+                    )}
+                </div>
+                {errors.token && (
+                  <p className="text-red-500 text-sm mt-1">{errors.token}</p>
+                )}
+                {tokenCheck && !tokenCheck.valid && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {tokenCheck.message}
+                  </p>
+                )}
+                <p className="text-xs text-gray-500 mt-1">
+                  Enter the 8-character token provided to you
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Mail className="inline w-4 h-4 mr-1" />
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={emailData.email}
+                  onChange={handleEmailChange}
+                  disabled={otpSent}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:bg-gray-100"
+                  placeholder="john@example.com"
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <User className="inline w-4 h-4 mr-1" />
+                  Username
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="username"
+                    value={emailData.username.toLowerCase()}
+                    onChange={handleEmailChange}
+                    disabled={otpSent}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:bg-gray-100"
+                    placeholder="johndoe"
+                  />
+                  {usernameCheck && (
+                    <span className="absolute right-3 top-3">
+                      {usernameCheck.available ? (
+                        <Check className="w-5 h-5 text-green-500" />
+                      ) : (
+                        <X className="w-5 h-5 text-red-500" />
+                      )}
+                    </span>
                   )}
                 </div>
+                {errors.username && (
+                  <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+                )}
               </div>
-            )}
 
-            {errors.submit && (
-              <p className="text-red-500 text-sm">{errors.submit}</p>
-            )}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Lock className="inline w-4 h-4 mr-1" />
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={emailData.password}
+                    onChange={handleEmailChange}
+                    disabled={otpSent}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent pr-10 disabled:bg-gray-100"
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+                )}
+              </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-400 flex items-center justify-center"
-            >
-              {loading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : otpSent ? (
-                "Verify & Create Account"
-              ) : (
-                "Send OTP"
+              {/* OTP Section - Shows after OTP is sent */}
+              {otpSent && (
+                <div className="pt-4">
+                  <div className="relative">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      OTP Code
+                    </label>
+                    <input
+                      type="text"
+                      value={otpValue}
+                      onChange={(e) => {
+                        setOtpValue(
+                          e.target.value.replace(/\D/g, "").slice(0, 6)
+                        );
+                        setErrors({ ...errors, otp: "" });
+                      }}
+                      className="w-full px-4 py-1 border border-gray-300 rounded-lg text-lg tracking-widest focus:border-transparent"
+                      placeholder="000000"
+                      maxLength={6}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleResendOTP}
+                      disabled={loading}
+                      className="text-sm text-green-500 hover:text-green-600 hover:underline mt-2"
+                    >
+                      Resend OTP
+                    </button>
+                    {errors.otp && (
+                      <p className="text-red-500 text-sm mt-2 text-center">
+                        {errors.otp}
+                      </p>
+                    )}
+                  </div>
+                </div>
               )}
-            </button>
 
-            <div className="text-center">
-              <button
-                type="button"
-                onClick={switchSignupMethod}
-                className="text-green-600 text-sm hover:underline font-medium"
-              >
-                Sign up with WhatsApp instead
-              </button>
-            </div>
+              {errors.submit && (
+                <p className="text-red-500 text-sm">{errors.submit}</p>
+              )}
 
-            <p className="text-center text-sm text-gray-600 mt-4">
-              Already have an account?{" "}
               <button
-                type="button"
-                onClick={() => navigate("/login")}
-                className="text-blue-600 font-semibold hover:underline"
+                type="submit"
+                disabled={loading}
+                className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors disabled:bg-gray-400 flex items-center justify-center"
               >
-                Login
+                {loading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : otpSent ? (
+                  "Verify & Create Account"
+                ) : (
+                  "Send OTP"
+                )}
               </button>
-            </p>
-          </form>
-        )}
+
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={switchSignupMethod}
+                  className="text-gray-600 text-sm hover:text-gray-900 hover:underline font-medium"
+                >
+                  Sign up with WhatsApp instead
+                </button>
+              </div>
+
+              <p className="text-center text-sm text-gray-600 mt-4">
+                Already have an account?{" "}
+                <button
+                  type="button"
+                  onClick={() => navigate("/login")}
+                  className="text-green-500 font-semibold hover:text-green-600 hover:underline"
+                >
+                  Login
+                </button>
+              </p>
+            </form>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

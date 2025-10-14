@@ -41,6 +41,39 @@ function Socials({
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const handleContactClick = async (phone) => {
+    const name = user?.name || "Contact";
+
+    const vCard = `BEGIN:VCARD
+VERSION:3.0
+FN:${name}
+TEL:+${phone}
+END:VCARD`;
+
+    const blob = new Blob([vCard], { type: "text/vcard" });
+    const file = new File([blob], "contact.vcf", { type: "text/vcard" });
+
+    // Try Web Share API (works on mobile)
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: `Save ${name}`,
+        });
+      } catch (err) {
+        console.log("Share cancelled or failed");
+      }
+    } else {
+      // Fallback: Download VCF
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "contact.vcf";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  };
+
   // Social platforms configuration
   const socialitems = [
     {
@@ -50,26 +83,13 @@ function Socials({
       placeholder: "example@gmail.com",
       buildUrl: (val) => `mailto:${val}`,
     },
-    {
-      name: "Save Contact",
-      key: "contact",
-      icon: <FaAddressBook size={24} className="text-blue-500" />,
-      placeholder: "Enter phone number with country code",
-      buildUrl: (val) => {
-        // Create a vCard that can be downloaded/saved to contacts
-        const phone = val.replace(/\s+/g, "");
-        const name = user?.name || "Contact"; // Use user's name from props
-
-        const vCard = `BEGIN:VCARD
-VERSION:3.0
-FN:${name}
-TEL;TYPE=CELL:+${phone}
-END:VCARD`;
-
-        // Encode the vCard as a data URL
-        return `data:text/vcard;charset=utf-8,${encodeURIComponent(vCard)}`;
-      },
-    },
+    // {
+    //   name: "Save Contact",
+    //   key: "contact",
+    //   icon: <FaAddressBook size={24} className="text-blue-500" />,
+    //   placeholder: "Enter phone number with country code",
+    //   buildUrl: (val) => `contact:${val}`, // We'll handle this specially
+    // },
     {
       name: "Call",
       key: "call",

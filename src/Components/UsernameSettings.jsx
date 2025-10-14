@@ -102,10 +102,10 @@ function UsernameSettings({ user, setUser }) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-white rounded-lg shadow p-6 my-8">
       <div className="text-left">
         {/* URL Format Selection */}
-        <div className="mb-6">
+        {/* <div className="mb-6">
           <label className="block text-sm font-semibold text-gray-700 mb-3">
             Preferred link
           </label>
@@ -114,7 +114,7 @@ function UsernameSettings({ user, setUser }) {
           </p>
 
           <div className="space-y-2">
-            {/* Subdomain Format */}
+
             <label className="flex items-start gap-3 p-3 border-2 rounded-lg cursor-pointer transition-all hover:bg-gray-50">
               <input
                 type="radio"
@@ -131,7 +131,6 @@ function UsernameSettings({ user, setUser }) {
               </div>
             </label>
 
-            {/* Path Format */}
             <label className="flex items-start gap-3 p-3 border-2 rounded-lg cursor-pointer transition-all hover:bg-gray-50">
               <input
                 type="radio"
@@ -148,7 +147,7 @@ function UsernameSettings({ user, setUser }) {
               </div>
             </label>
           </div>
-        </div>
+        </div> */}
 
         {/* Username Input */}
         <div className="mb-4">

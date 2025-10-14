@@ -39,13 +39,13 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
         className="text-white p-1 rounded-full bg-[#00000052] "
       />
     ),
-    // contact: (
-    //   <FaAddressBook
-    //     size={24}
-    //     style={{ color: theme.iconColor, background: theme.iconBg }}
-    //     className="text-white p-1 rounded-full bg-[#00000052]"
-    //   />
-    // ),
+    contact: (
+      <FaAddressBook
+        size={24}
+        style={{ color: theme.iconColor, background: theme.iconBg }}
+        className="text-white p-1 rounded-full bg-[#00000052]"
+      />
+    ),
     call: (
       <FaPhoneAlt
         size={24}
