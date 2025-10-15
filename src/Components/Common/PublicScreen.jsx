@@ -322,7 +322,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
           ))
         )}
         <div className="w-full flex opacity-50 justify-center absolute md:bottom-8  bottom-24">
-          <img src={img} className=" w-[70px] md:w-[40px] p-1 border border-gray-400 " alt="" />
+          <img src={img} className=" w-[70px] md:w-[40px] p-1 border-2 border-gray-400 " alt="" />
           
         </div>
       </div>
