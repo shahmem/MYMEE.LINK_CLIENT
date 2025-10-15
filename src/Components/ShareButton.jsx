@@ -26,7 +26,7 @@ function ShareButton({ user, theme }) {
   };
 
   return (
-    <div className="absolute top-4 right-4 flex gap-2">
+    <div className="absolute top-10 right-6 flex gap-2">
       <button
         onClick={handleShare}
         style={{

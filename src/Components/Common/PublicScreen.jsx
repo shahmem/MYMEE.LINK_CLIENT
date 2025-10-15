@@ -233,7 +233,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
     >
       {user && <ShareButton user={user} theme={theme} />}
       {user && (
-        <div className="flex flex-col items-center text-center  mt-16 order-1">
+        <div className="flex flex-col items-center text-center  mt-18 order-1">
           <img
             src={
               user.profileImage
