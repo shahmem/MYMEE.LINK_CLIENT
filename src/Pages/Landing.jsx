@@ -213,7 +213,7 @@ export default function Landing() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center mt-12 md:mt-3 justify-center gap-4">
             {/* Get Started Button */}
             <button
               onClick={() => {
