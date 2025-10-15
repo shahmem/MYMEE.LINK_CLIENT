@@ -34,21 +34,21 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
   const iconMap = {
     email: (
       <MdEmail
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052] "
       />
     ),
     contact: (
       <FaAddressBook
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     call: (
       <FaPhoneAlt
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
@@ -56,161 +56,161 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
 
     facebook: (
       <FaFacebookF
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     twitter: (
       <FaTwitter
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     youtube: (
       <FaYoutube
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     whatsapp: (
       <FaWhatsapp
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     tiktok: (
       <FaTiktok
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     spotify: (
       <FaSpotify
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     github: (
       <FaGithub
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     behance: (
       <FaBehance
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     dribbble: (
       <FaDribbble
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     discord: (
       <FaDiscord
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     reddit: (
       <FaReddit
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     linkedin: (
       <FaLinkedin
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     clubhouse: (
       <SiClubhouse
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     telegram: (
       <FaTelegram
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     twitch: (
       <FaTwitch
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     pinterest: (
       <FaPinterest
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     amazon: (
       <FaAmazon
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     flipkart: (
       <SiFlipkart
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     snapchat: (
       <FaSnapchatGhost
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     music: (
       <FaMusic
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     podcast: (
       <FaPodcast
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     googleplay: (
       <SiGoogleplay
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
     ),
     instagram: (
       <FaInstagram
-        size={24}
+        size={28}
         style={{ color: theme.iconColor, background: theme.iconBg }}
         className="text-white p-1 rounded-full bg-[#00000052]"
       />
@@ -267,7 +267,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className=" w-[42px] h-[42px] flex justify-center items-center hover:scale-110 transform transition-all"
+                  className=" w-[20px] h-[20px] flex justify-center items-center hover:scale-110 transform transition-all"
                 >
                   {Icon}
                 </a>
@@ -322,7 +322,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
           ))
         )}
         <div className="w-full flex justify-center absolute bottom-24">
-        <img src={img} className="opacity-25 w-[130px] fill-[#ffffffc0]" alt="" />
+        {/* <img src={img} className="opacity-25 w-[130px] fill-[#ffffffc0]" alt="" /> */}
 
         </div>
       </div>
