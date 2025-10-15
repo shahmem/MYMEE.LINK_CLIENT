@@ -1,4 +1,4 @@
-import img from "../../assets/mymee-logo.png";
+import img from "../../assets/Mymee Logo_svg.svg";
 import {
   FaFacebookF,
   FaTwitter,
@@ -278,7 +278,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
       </div>
 
       <div
-        className={`flex items-center flex-col gap-3 mt-12 w-full ${
+        className={`flex items-center flex-col gap-3 mt-6 w-full ${
           position === "top" ? "order-3" : "order-2"
         }`}
       >
@@ -322,7 +322,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
           ))
         )}
         <div className="w-full flex justify-center absolute bottom-24">
-        <img src={img} className="opacity-25 w-[180px]  " alt="" />
+        <img src={img} className="opacity-25 w-[130px] fill-[#ffffff2a] " alt="" />
 
         </div>
       </div>
