@@ -300,7 +300,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
                 background: theme.linkBg,
                 borderRadius: theme.linkRadius,
               }}
-              className="flex justify-center inset-0 bg-[#00000052] bg-opacity-30 backdrop-blur-sm w-[13rem] items-center  p-2 rounded-3xl shadow relative"
+              className="flex justify-center inset-0 bg-[#00000052] bg-opacity-30 backdrop-blur-sm w-[23rem] items-center  p-2 rounded-3xl shadow relative"
             >
               <img
                 className="absolute p-0.5 left-0.5 h-9 w-9 object-contain object-center rounded-full"
