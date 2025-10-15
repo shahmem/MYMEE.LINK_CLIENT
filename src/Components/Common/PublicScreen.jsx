@@ -233,7 +233,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
     >
       {user && <ShareButton user={user} theme={theme} />}
       {user && (
-        <div className="flex flex-col items-center text-center mt-14 order-1">
+        <div className="flex flex-col items-center text-center mt-18 order-1">
           <img
             src={
               user.profileImage
@@ -256,7 +256,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
       )}
       <div className={` ${position === "top" ? "order-2" : "order-3"}`}>
         {socialLinks && (
-          <div className="flex justify-center gap-1 py-3">
+          <div className="flex justify-center gap-2 py-3">
             {socialLinks.map((link, idx) => {
               const Icon = iconMap[link.icon.toLowerCase()];
               if (!Icon) return null;
@@ -278,7 +278,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
       </div>
 
       <div
-        className={`flex items-center flex-col gap-3 mt-3 w-full ${
+        className={`flex items-center flex-col gap-3 w-full ${
           position === "top" ? "order-3" : "order-2"
         }`}
       >
