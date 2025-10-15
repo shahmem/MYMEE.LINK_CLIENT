@@ -17,7 +17,7 @@ function Tabs({links, setLinks, refreshSocialLinks, setUser, user, socialLinks, 
   ];
   return (
     <div className="md:px-16 py-12 h-screen overflow-auto w-full md:w-[55%] bg-gray-100">
-      <div className="w-full h-auto max-w-lg mx-auto  mt-24">
+      <div className="w-full h-auto max-w-lg mx-auto mt-8 md:mt-24">
         <div className="flex border-b border-gray-300 relative">
           {tabs.map((tab) => (
             <button
@@ -67,7 +67,7 @@ function Tabs({links, setLinks, refreshSocialLinks, setUser, user, socialLinks, 
               <Settings user={user} setUser={setUser} apiBase={apiBase} />
             </p>
           )}
-          <LogoutButton onLogout={onLogout} />
+          {/* <LogoutButton onLogout={onLogout} /> */}
         </div>
       </div>
     </div>

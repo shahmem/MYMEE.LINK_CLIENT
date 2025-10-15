@@ -136,7 +136,7 @@ function Dashboard() {
 
   return (
     <div className=" h-screen">
-      <Navbar />
+      <Navbar onLogout={handleLogout}/>
       <div className="flex overflow-auto md:flex-row flex-col">
         <LiveScreen
           links={links}
@@ -158,7 +158,6 @@ function Dashboard() {
           setTheme={setTheme}
           position={position}
           setPosition={setPosition}
-          onLogout={handleLogout}
         />
       </div>
     </div>
