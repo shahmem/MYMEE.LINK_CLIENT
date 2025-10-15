@@ -185,7 +185,7 @@ function LinkPanel({ links, setLinks, user }) {
                     {editingId === link._id && (
                       <div
                         onClick={handleOverlayClick}
-                        className="fixed top-0 left-0 h-screen w-screen flex justify-center items-center bg-[#11111148] z-40"
+                        className="fixed top-0 left-0 h-screen p-4 w-screen flex justify-center items-center bg-[#11111148] z-40"
                       >
                         <div className=" bg-white space-y-2">
                           <div className="p-5 mt-3 flex gap-2.5">
