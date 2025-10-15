@@ -278,7 +278,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
       </div>
 
       <div
-        className={`flex items-center flex-col gap-2.5 w-sm ${
+        className={`flex items-center flex-col gap-2.5 w-lg ${
           position === "top" ? "order-3" : "order-2"
         }`}
       >
@@ -322,7 +322,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
           ))
         )}
         <div className="w-full flex justify-center absolute bottom-12">
-        <img src={img} className="opacity-25 w-[]" alt="" />
+        <img src={img} className="opacity-25 w-[120px] " alt="" />
 
         </div>
       </div>
