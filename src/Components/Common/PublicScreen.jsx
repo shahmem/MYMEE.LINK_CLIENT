@@ -254,7 +254,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
           </h3>
         </div>
       )}
-      <div className={position === "top" ? "order-2" : "order-3"}>
+      <div className={` ${position === "top" ? "order-2" : "order-3"}`}>
         {socialLinks && (
           <div className="flex justify-center gap-1 py-3">
             {socialLinks.map((link, idx) => {
@@ -278,7 +278,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
       </div>
 
       <div
-        className={`flex items-center flex-col gap-3 w-full ${
+        className={`flex items-center flex-col gap-3 mt-12 w-full ${
           position === "top" ? "order-3" : "order-2"
         }`}
       >
@@ -300,7 +300,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
                 background: theme.linkBg,
                 borderRadius: theme.linkRadius,
               }}
-              className="flex justify-center inset-0 bg-[#00000052] bg-opacity-30 backdrop-blur-sm w-[19rem] mt-16 items-center  p-2 py-3 rounded-3xl shadow relative"
+              className="flex justify-center inset-0 bg-[#00000052] bg-opacity-30 backdrop-blur-sm w-[19rem] items-center  p-2 py-3 rounded-3xl shadow relative"
             >
               <img
                 className="absolute p-0.5 left-1 h-10 w-10 object-contain object-center rounded-full"
