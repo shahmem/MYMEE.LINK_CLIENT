@@ -241,7 +241,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
                 : `${img}`
             }
             alt="profile"
-            className="w-24 h-24 mb-2 rounded-full object-cover object-center border-2 border-gray-300 shadow"
+            className="mb-2 rounded-full object-cover object-center border-2 border-gray-300 shadow"
           />
           <h2 style={{ color: theme.nameColor }} className="font-semibold mt-3 text-lg">
             {user.name}
