@@ -174,77 +174,81 @@ export default function Landing() {
 
       {/* Hero Section */}
       <div className="min-h-screen bg-[#fffffc] px-4 sm:px-6 lg:px-8  pt-36 md:pt-28 ">
-      <div className="max-w-5xl mx-auto text-center">
-        {/* Waitlist Badge */}
-        <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 border border-gray-300 rounded-full mb-8 mt-4 lg:mt-12 md:mt-8 sm:mb-8 bg-white shadow-sm">
-          <span className="text-gray-700 text-sm sm:text-base">
-            All Your Links. One Mymee!
-          </span>
-          <span className="text-lime-600 font-semibold text-sm sm:text-base">
-            Join Waitlist
-          </span>
-          <svg 
-            className="w-4 h-4 text-gray-700" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M9 5l7 7-7 7" 
-            />
-          </svg>
-        </div>
-
-        {/* Main Heading */}
-        <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight">
-          All your links,
-          <br />
-          one smart profile.
-        </h1>
-
-        {/* Subheading */}
-        <p className="text-gray-600 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed">
-          Create your personalized link in bio page in seconds.
-          <br className="hidden sm:block" />
-          Share everything that matters in one place.
-        </p>
-
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          {/* Get Started Button */}
-          <button
-            onClick={()=>{navigate('/signup')}}
-            className="w-full sm:w-auto bg-linear-to-b  from-lime-500 to-lime-300 hover:bg-lime-500 text-white  px-8 py-3 rounded-xl transition-colors shadow-sm text-sm sm:text-base"
-          >
-            Get Started
-          </button>
-
-          {/* QR Code Button */}
-          <button
-            onClick={()=>{setShowQRModal}}
-            className="w-full sm:w-auto bg-white border-2 border-lime-400 text-lime-500 hover:bg-lime-50 font-semibold px-8 py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
-          >
-            <svg 
-              className="w-5 h-5" 
-              fill="none" 
-              stroke="currentColor" 
+        <div className="max-w-5xl mx-auto text-center">
+          {/* Waitlist Badge */}
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 border border-gray-300 rounded-full mb-8 mt-4 lg:mt-12 md:mt-8 sm:mb-8 bg-white shadow-sm">
+            <span className="text-gray-700 text-sm sm:text-base">
+              All Your Links. One Mymee!
+            </span>
+            <span className="text-lime-600 font-semibold text-sm sm:text-base">
+              Join Waitlist
+            </span>
+            <svg
+              className="w-4 h-4 text-gray-700"
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
               />
             </svg>
-            QR Code
-          </button>
+          </div>
+
+          {/* Main Heading */}
+          <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight">
+            All your links,
+            <br />
+            one smart profile.
+          </h1>
+
+          {/* Subheading */}
+          <p className="text-gray-600 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed">
+            Create your personalized link in bio page in seconds.
+            <br className="hidden sm:block" />
+            Share everything that matters in one place.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            {/* Get Started Button */}
+            <button
+              onClick={() => {
+                navigate("/signup");
+              }}
+              className="w-full sm:w-auto bg-linear-to-b  from-lime-500 to-lime-300 hover:bg-lime-500 text-white  px-8 py-3 rounded-xl transition-colors shadow-sm text-sm sm:text-base"
+            >
+              Get Started
+            </button>
+
+            {/* QR Code Button */}
+            <button
+              onClick={() => {
+                setShowQRModal;
+              }}
+              className="w-full sm:w-auto bg-white border-2 border-lime-400 text-lime-500 hover:bg-lime-50 font-semibold px-8 py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
+                />
+              </svg>
+              QR Code
+            </button>
+          </div>
         </div>
       </div>
-    </div>
       {/* Footer */}
       {/* <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
