@@ -233,7 +233,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
     >
       {user && <ShareButton user={user} theme={theme} />}
       {user && (
-        <div className="flex flex-col items-center text-center  mt-10 order-1">
+        <div className="flex flex-col items-center text-center  mt-16 order-1">
           <img
             src={
               user.profileImage
@@ -243,7 +243,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
             alt="profile"
             className="w-20 h-20 mb-2 rounded-full object-cover object-center border-2 border-gray-300 shadow"
           />
-          <h2 style={{ color: theme.nameColor }} className="font-semibold">
+          <h2 style={{ color: theme.nameColor }} className="font-semibold mt-6">
             {user.name}
           </h2>
           <h3
@@ -267,7 +267,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className=" w-[30px] h-[30px] flex justify-center items-center hover:scale-110 transform transition-all"
+                  className=" w-[34px] h-[34px] flex justify-center items-center hover:scale-110 transform transition-all"
                 >
                   {Icon}
                 </a>
@@ -278,14 +278,14 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
       </div>
 
       <div
-        className={`flex items-center flex-col gap-2.5 w-full ${
+        className={`flex items-center flex-col gap-3 w-full ${
           position === "top" ? "order-3" : "order-2"
         }`}
       >
         {user?.header && (
           <p
             style={{ color: theme.headerColor }}
-            className="capitalize text-sm my-2 font-semibold"
+            className="capitalize my-2 font-semibold"
           >
             {user.header}
           </p>
@@ -300,10 +300,10 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
                 background: theme.linkBg,
                 borderRadius: theme.linkRadius,
               }}
-              className="flex justify-center inset-0 bg-[#00000052] bg-opacity-30 backdrop-blur-sm w-[19rem] items-center  p-2 py-3 rounded-3xl shadow relative"
+              className="flex justify-center inset-0 bg-[#00000052] bg-opacity-30 backdrop-blur-sm w-[19rem] mt-16 items-center  p-2 py-3 rounded-3xl shadow relative"
             >
               <img
-                className="absolute p-0.5 left-0.5 h-9 w-9 object-contain object-center rounded-full"
+                className="absolute p-0.5 left-1 h-10 w-10 object-contain object-center rounded-full"
                 src={`${apiBase}/uploads/${link.icon}`}
                 alt="img"
               />
@@ -313,7 +313,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-black font-semibold text-xs"
+                  className="text-black font-semibold text-sm"
                 >
                   {link.title}
                 </a>
@@ -322,7 +322,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
           ))
         )}
         <div className="w-full flex justify-center absolute bottom-24">
-        <img src={img} className="opacity-25 w-[180px] " alt="" />
+        <img src={img} className="opacity-25 w-[180px]  " alt="" />
 
         </div>
       </div>
