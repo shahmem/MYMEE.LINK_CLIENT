@@ -8,7 +8,7 @@ export default function Navbar() {
     <nav style={{ fontFamily: "'poppins', sans-serif" }} className="w-full bg-transparent fixed px-4 md:px-6 lg:px-9 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
-        <div className="">
+        <div onClick={()=>{navigate('/')}} className="cursor-pointer ">
           <img 
             src={logo}
             alt="Mymee Logo" 

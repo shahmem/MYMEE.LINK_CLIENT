@@ -114,7 +114,7 @@ export default function Landing() {
             </button>
 
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-lime-500 to-lime-300 rounded-xl flex items-center justify-center">
                 <QrCode className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900">
@@ -227,7 +227,7 @@ export default function Landing() {
             {/* QR Code Button */}
             <button
               onClick={() => {
-                setShowQRModal;
+                setShowQRModal(true);
               }}
               className="w-full sm:w-auto bg-white border-2 border-lime-400 text-lime-500 hover:bg-lime-50 font-semibold px-8 py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
             >

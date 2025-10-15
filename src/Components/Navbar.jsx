@@ -6,7 +6,7 @@ export default function Navbar({onLogout}) {
   const navigate = useNavigate();
 
   return (
-    <nav style={{ fontFamily: "'poppins', sans-serif" }} className="w-full bg-white border-b border-gray-100 absolute px-4 md:px-6 lg:px-9 py-3 z-50 ">
+    <nav style={{ fontFamily: "'poppins', sans-serif" }} className="w-full bg-white border-b border-gray-100 absolute px-4 md:px-6 lg:px-9 py-3 md:py-0 z-50 ">
       <div className="px-4 md:px-16 lg:px-20 mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="">
