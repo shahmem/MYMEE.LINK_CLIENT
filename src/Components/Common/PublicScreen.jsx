@@ -321,8 +321,8 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
             </div>
           ))
         )}
-        <div className="w-full flex justify-center absolute bottom-12">
-        <img src={img} className="opacity-25 w-[120px] " alt="" />
+        <div className="w-full flex justify-center absolute bottom-24">
+        <img src={img} className="opacity-25 w-[180px] " alt="" />
 
         </div>
       </div>
