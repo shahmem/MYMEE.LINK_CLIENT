@@ -241,15 +241,15 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
                 : `${img}`
             }
             alt="profile"
-            className="mb-2 rounded-full object-cover object-center border-2 border-gray-300 shadow"
+            className="w-24 h-24 mb-2 rounded-full object-cover object-center border-2 border-gray-300 shadow"
           />
-          <h2 style={{ color: theme.nameColor }} className="font-semibold mt-3 text-lg">
+          <h2
+            style={{ color: theme.nameColor }}
+            className="font-semibold mt-3 text-lg"
+          >
             {user.name}
           </h2>
-          <h3
-            style={{ color: theme.bioColor }}
-            className="font-medium"
-          >
+          <h3 style={{ color: theme.bioColor }} className="font-medium">
             {user.bio}
           </h3>
         </div>
@@ -267,7 +267,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className=" w-[20px] h-[20px] flex justify-center items-center hover:scale-110 transform transition-all"
+                  className=" w-[28px] h-[28px] flex justify-center items-center hover:scale-110 transform transition-all"
                 >
                   {Icon}
                 </a>
@@ -322,8 +322,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
           ))
         )}
         <div className="w-full flex justify-center absolute bottom-24">
-        {/* <img src={img} className="opacity-25 w-[130px] fill-[#ffffffc0]" alt="" /> */}
-
+          {/* <img src={img} className="opacity-25 w-[130px] fill-[#ffffffc0]" alt="" /> */}
         </div>
       </div>
     </div>
