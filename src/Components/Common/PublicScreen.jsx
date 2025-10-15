@@ -222,7 +222,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
 
   return (
     <div
-      className={`flex flex-col items-center  gap-3 p-4 ${
+      className={`flex flex-col items-center  mt-12 gap-3 p-4 ${
         isDashboard ? "rounded-2xl h-full" : " h-screen"
       }  relative w-full `}
       style={{
@@ -233,7 +233,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
     >
       {user && <ShareButton user={user} theme={theme} />}
       {user && (
-        <div className="flex flex-col items-center text-center  mt-18 order-1">
+        <div className="flex flex-col items-center text-center  order-1">
           <img
             src={
               user.profileImage
