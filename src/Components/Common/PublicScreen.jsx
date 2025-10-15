@@ -278,7 +278,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
       </div>
 
       <div
-        className={`flex items-center flex-col gap-2.5 w-lg ${
+        className={`flex items-center flex-col gap-2.5 w-full ${
           position === "top" ? "order-3" : "order-2"
         }`}
       >
