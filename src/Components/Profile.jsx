@@ -8,7 +8,6 @@ const Profile = ({ user, setUser }) => {
   const [bio, setBio] = useState("");
   const [img, setImg] = useState(null); // file object
   const [preview, setPreview] = useState(""); // image URL
-// console.log(user);
 
   useEffect(() => {
     if (user) {

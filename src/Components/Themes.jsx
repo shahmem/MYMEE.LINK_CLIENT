@@ -69,7 +69,6 @@ function Themes({ user, currentTheme, setTheme }) {
     "#ffffff",
   ];
 
-
   useEffect(() => {
     const fetchBuiltinThemes = async () => {
       try {
