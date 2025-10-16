@@ -275,21 +275,21 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
             })}
           </div>
         )}
-      </div>
 
+      {user?.header && (
+        <p
+        style={{ color: theme.headerColor }}
+        className="capitalize text-center my-2 font-semibold"
+        >
+          {user.header}
+        </p>
+      )}
+      </div>
       <div
-        className={`flex items-center flex-col gap-3 w-full ${
+        className={`flex items-center flex-col gap-3 scrollbar-hide overflow-auto w-full px-2 overflow-x-hidden ${
           position === "top" ? "order-3" : "order-2"
         }`}
       >
-        {user?.header && (
-          <p
-            style={{ color: theme.headerColor }}
-            className="capitalize my-2 font-semibold"
-          >
-            {user.header}
-          </p>
-        )}
         {links.length === 0 ? (
           <p className="text-gray-600 text-center">No links added yet.</p>
         ) : (
@@ -300,7 +300,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
                 background: theme.linkBg,
                 borderRadius: theme.linkRadius,
               }}
-              className="flex justify-center inset-0  bg-opacity-30 backdrop-blur-[4px] md:w-[14rem] w-[19rem] items-center  p-2.5 py-3 md:py-2 rounded-3xl shadow relative"
+              className="flex justify-center inset-0  bg-opacity-30 backdrop-blur-[4px] md:w-[14rem] w-[19rem] items-center  p-2.5 py-3 md:py-2 rounded-3xl shadow z-40 relative"
             >
               <img
                 className="absolute p-0.5 left-1 md:h-9 md:w-9 h-12 w-12 object-contain object-center rounded-full"
