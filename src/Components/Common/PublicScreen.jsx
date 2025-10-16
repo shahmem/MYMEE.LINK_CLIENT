@@ -216,7 +216,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
       />
     ),
   };
-  // console.log(theme);
+  console.log(links[2].icon);
 
   const apiBase = import.meta.env.VITE_API_URL;
 
@@ -300,7 +300,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
                 background: theme.linkBg,
                 borderRadius: theme.linkRadius,
               }}
-              className="flex justify-center inset-0  bg-opacity-30 backdrop-blur-[4px] md:w-[14rem] w-[19rem] items-center  p-2.5 py-3 md:py-2 rounded-3xl shadow z-40 relative"
+              className="flex justify-center inset-0  bg-opacity-30 backdrop-blur-[4px] md:w-[13rem] w-[19rem] items-center  p-2.5 py-3 md:py-2 rounded-3xl shadow z-40 relative"
             >
               <img
                 className="absolute p-0.5 left-1 md:h-9 md:w-9 h-12 w-12 object-contain object-center rounded-full"
