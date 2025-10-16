@@ -286,7 +286,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
       )}
       </div>
       <div
-        className={`flex items-center flex-col gap-3 scrollbar-hide overflow-auto w-full px-2 overflow-x-hidden ${
+        className={`flex items-center flex-col gap-3 scrollbar-hide overflow-auto w-full p-4 overflow-x-hidden ${
           position === "top" ? "order-3" : "order-2"
         }`}
       >
