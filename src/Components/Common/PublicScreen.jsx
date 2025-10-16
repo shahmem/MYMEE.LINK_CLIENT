@@ -216,8 +216,7 @@ function PublicScreen({ links, user, socialLinks, theme, position }) {
       />
     ),
   };
-  console.log(links[2].icon);
-
+  console.log(theme.bgImage);
   const apiBase = import.meta.env.VITE_API_URL;
 
   return (
