@@ -68,6 +68,7 @@ function Themes({ user, currentTheme, setTheme }) {
     "#ffffff",
     "#ffffff",
   ];
+console.log("bg img in theme (design tab):",customTheme.bgImage);
 
   useEffect(() => {
     const fetchBuiltinThemes = async () => {

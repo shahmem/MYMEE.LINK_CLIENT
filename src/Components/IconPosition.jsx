@@ -18,7 +18,7 @@ export default function IconPosition({ position, setPosition }) {
                 position === "top"
                   ? "border-blue-500 bg-gray-200"
                   : "border-gray-300 bg-gray-100"
-              } rounded-lg p-6 w-40 bg-gray-200`}>
+              } rounded-lg p-6 md:w-40 w-32 bg-gray-200`}>
               <div className="flex justify-center items-center gap-3 mb-4">
                 <Instagram className="w-4 h-4 text-gray-700" />
                 <Facebook className="w-4 h-4 text-gray-700" />
@@ -40,7 +40,7 @@ export default function IconPosition({ position, setPosition }) {
                 position === "bottom"
                   ? "border-blue-500 bg-gray-200"
                   : "border-gray-300 bg-gray-100"
-              } rounded-lg p-6 w-40 bg-gray-200`}>
+              } rounded-lg p-6 md:w-40 w-32 bg-gray-200`}>
               <div className="space-y-2 mb-4">
                 <div className="h-3 bg-white rounded"></div>
                 <div className="h-3 bg-white rounded w-3/4"></div>
